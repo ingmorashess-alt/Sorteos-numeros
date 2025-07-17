@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tu Número Secuencial</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 40px; }
+    h1 { color: #2e7d32; }
+    p { font-size: 24px; }
+  </style>
+</head>
+<body>
+  <h1>¡Gracias por completar el formulario!</h1>
+  <p>Tu número secuencial es: <strong id="numero">Cargando...</strong></p>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const correo = urlParams.get('correo');
+
+    if (correo) {
+      fetch('https://script.google.com/macros/s/AKfycbzIhcMK6hRQz3sj3yAiFJ6cu96xr9fCdGMVlKZNTXAltSySfeeFt_dxbvV0u5RHtpzB/exec?correo=' + correo)
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('numero').textContent = data.numero || 'No encontrado';
+        })
+        .catch(() => {
+          document.getElementById('numero').textContent = 'Error al cargar el número';
+        });
+    } else {
+      document.getElementById('numero').textContent = 'Sin correo proporcionado';
+    }
+  </script>
+</body>
+</html>
